@@ -75,10 +75,8 @@ class Header extends Component {
   renderMenuDefault = () => {
     return (
       <DropdownMenu onMouseLeave={() => this.setState({ onMouseEnter: false })} right>
-        <DropdownItem>
-          <Link to={"/login"} style={{ textDecoration: "none", color: "inherit" }}>
-            Login
-          </Link>
+        <DropdownItem href={"/login"} style={{ textDecoration: "none", color: "inherit" }}>
+          Login
         </DropdownItem>
         <DropdownItem>
           <Link to={"/"} style={{ textDecoration: "none", color: "#a6a6a6" }}>
@@ -94,11 +92,7 @@ class Header extends Component {
   renderMenuAdmin = () => {
     return (
       <DropdownMenu onMouseLeave={() => this.setState({ onMouseEnter: false })} right>
-        <DropdownItem>
-          <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
-            Manage Users
-          </Link>
-        </DropdownItem>
+        <DropdownItem href={"/manage_users"}>Manage Users</DropdownItem>
         <DropdownItem>
           <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
             Manage Movies

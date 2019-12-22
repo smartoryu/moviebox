@@ -1,3 +1,12 @@
+td {
+  line-height: 30px;
+}
+
+button.action {
+  margin: 0.1rem 0.25rem;
+  font-size: 0.75rem;
+}
+
 .card {
   padding: 0;
   border: 1px transparent;

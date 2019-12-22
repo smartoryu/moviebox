@@ -33,11 +33,6 @@
       "name": "Studio 4",
       "totalSeat": "200",
       "id": 4
-    },
-    {
-      "name": "Studio 5",
-      "totalSeat": "300",
-      "id": 5
     }
   ],
   "movies": [

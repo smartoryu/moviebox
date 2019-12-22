@@ -7,12 +7,11 @@ import Loader from "react-loader-spinner";
 import Swal from "sweetalert2";
 
 import { API_URL } from "../support/API_URL";
-
 import NotFound from "./NotFound";
 
 class ManageStudios extends Component {
   state = {
-    loading: true,
+    loading: false,
     dataStudios: [],
     studioId: -1,
     indexEdit: -1,
@@ -24,7 +23,7 @@ class ManageStudios extends Component {
     try {
       var { data } = await Axios.get(`${API_URL}/studios`);
       this.setState({ dataStudios: data });
-      setTimeout(() => this.setState({ loading: false }), 1000);
+      setTimeout(() => this.setState({ loading: false }), 500);
     } catch (err) {
       console.log(err);
     }
@@ -173,10 +172,10 @@ class ManageStudios extends Component {
           <td>{val.name}</td>
           <td>{val.totalSeat}</td>
           <td>
-            <button onClick={() => this.btnEdit(index)} className="btn btn-primary mr-3">
+            <button onClick={() => this.btnEdit(index)} className="btn btn-primary action">
               <FaRegEdit />
             </button>
-            <button onClick={() => this.btnDelete(index)} className="btn btn-danger">
+            <button onClick={() => this.btnDelete(index)} className="btn btn-danger action">
               <FaRegTrashAlt />
             </button>
           </td>
@@ -190,7 +189,7 @@ class ManageStudios extends Component {
   ==============================================================*/
 
   render() {
-    const { dataStudios, indexEdit } = this.state;
+    const { dataStudios, indexEdit, isEditOpen, isAddOpen } = this.state;
     const { AuthLogin, AuthRole } = this.props;
     // console.log("state", this.state.dataStudios);
     // console.log("manage studios", AuthRole);
@@ -199,7 +198,7 @@ class ManageStudios extends Component {
       return (
         <div>
           {/*                 MODAL ADD                 */}
-          <Modal size="md" isOpen={this.state.isAddOpen} toggle={() => this.setState({ isAddOpen: false })}>
+          <Modal centered size="md" isOpen={isAddOpen} toggle={() => this.setState({ isAddOpen: false })}>
             <ModalHeader>Add New Studio</ModalHeader>
             <ModalBody>
               <span>Studio Name:</span>
@@ -219,7 +218,7 @@ class ManageStudios extends Component {
 
           {/*                MODAL EDIT                 */}
           {indexEdit === -1 ? null : (
-            <Modal size="md" isOpen={this.state.isEditOpen} toggle={() => this.setState({ isEditOpen: false })}>
+            <Modal centered size="md" isOpen={isEditOpen} toggle={() => this.setState({ isEditOpen: false })}>
               <ModalHeader>Edit {dataStudios[indexEdit].name}</ModalHeader>
               <ModalBody>
                 <span>Studio Name:</span>
@@ -259,7 +258,7 @@ class ManageStudios extends Component {
               <button onClick={() => this.setState({ isAddOpen: true })} className="btn btn-warning font-smaller mb-3">
                 Add New Studio
               </button>
-              <Table className="text-center" style={{ width: 800 }}>
+              <Table className="text-center" style={{ width: "70vw" }}>
                 <thead>
                   <tr>
                     <th style={{ width: 100 }}>#</th>
@@ -274,9 +273,9 @@ class ManageStudios extends Component {
           )}
         </div>
       );
+    } else {
+      return <NotFound />;
     }
-
-    return <NotFound />;
   }
 }
 
