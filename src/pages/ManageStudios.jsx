@@ -172,11 +172,11 @@ class ManageStudios extends Component {
           <td>{val.name}</td>
           <td>{val.totalSeat}</td>
           <td>
-            <button onClick={() => this.btnEdit(index)} className="btn btn-primary action">
-              <FaRegEdit />
-            </button>
             <button onClick={() => this.btnDelete(index)} className="btn btn-danger action">
               <FaRegTrashAlt />
+            </button>
+            <button onClick={() => this.btnEdit(index)} className="btn btn-primary action">
+              <FaRegEdit />
             </button>
           </td>
         </tr>
