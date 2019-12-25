@@ -4,12 +4,13 @@ const INITIAL_STATE = {
   password: "",
   role: "",
   login: false,
+  error: false,
   errorUser: false,
   errorPass: false,
   errorTextUser: "",
   errorTextPass: "",
   errorText: ""
-}
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -21,33 +22,33 @@ export default (state = INITIAL_STATE, action) => {
         errorUser: false,
         errorPass: false,
         errorText: ""
-      }
+      };
     case "LOGIN_RESET":
-      return INITIAL_STATE
+      return INITIAL_STATE;
     case "WRONG_USER":
       return {
         ...state,
         errorUser: true,
         errorTextUser: action.payload
-      }
+      };
     case "WRONG_PASS":
       return {
         ...state,
         errorUser: true,
         errorPass: true,
         errorTextPass: action.payload
-      }
+      };
     case "LOGIN_ERROR":
       return {
         ...state,
         error: true,
         errorText: action.payload
-      }
+      };
     case "RESET_PASS":
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     case "LOGOUT_SUCCESS":
-      return INITIAL_STATE
+      return INITIAL_STATE;
     default:
-      return state
+      return state;
   }
-}
+};

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { LoginThunkAction } from "../redux/action";
+import { RegisterThunkAction } from "../redux/action";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,11 +12,13 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
-class Login extends Component {
-  handleLogin = () => {
-    var username = this.username.value;
-    var password = this.password.value;
-    this.props.LoginThunkAction(username, password);
+class Register extends Component {
+  handleRegister = () => {
+    var name = this.name.value;
+    var username = this.username.value.toLowerCase();
+    var password1 = this.password1.value;
+    var password2 = this.password2.value;
+    this.props.RegisterThunkAction(name, username, password1, password2);
   };
 
   renderCopyright = () => {
@@ -33,10 +35,7 @@ class Login extends Component {
   };
 
   render() {
-    const { AuthLogin, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
-
-    console.log("login page", AuthLogin);
-    if (AuthLogin) {
+    if (this.props.RegDone) {
       return <Redirect to={"/"} />;
     }
 
@@ -45,34 +44,62 @@ class Login extends Component {
         <CssBaseline />
         <div className="paper">
           <Typography component="h1" variant="h5">
-            Sign in
+            Register
           </Typography>
           <form className="form" noValidate>
             <TextField // USERNAME FIELD
-              id="login-username"
+              id="register-name"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              inputRef={el => (this.name = el)}
+              // error={WrongUser}
+              // helperText={ErrorUser}
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <TextField // USERNAME FIELD
+              id="register-username"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               inputRef={el => (this.username = el)}
-              error={WrongUser}
-              helperText={ErrorUser}
+              // error={WrongUser}
+              // helperText={ErrorUser}
               label="Username"
               name="username"
               autoComplete="username"
               autoFocus
             />
             <TextField // PASSWORD FIELD
-              id="login-password"
+              id="register-password"
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              inputRef={el => (this.password = el)}
-              error={WrongPass}
-              helperText={ErrorPass}
+              inputRef={el => (this.password1 = el)}
+              // error={WrongPass}
+              // helperText={ErrorPass}
               label="Password"
-              name="password"
+              name="password1"
+              type="password"
+              autoComplete="current-password"
+            />
+            <TextField // RE-ENTER PASSWORD FIELD
+              id="register-password"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              inputRef={el => (this.password2 = el)}
+              // error={WrongPass}
+              // helperText={ErrorPass}
+              label="Re-enter Password"
+              name="password2"
               type="password"
               autoComplete="current-password"
             />
@@ -83,17 +110,13 @@ class Login extends Component {
               variant="contained"
               color="primary"
               className="mt-3 mb-1">
-              Sign In
+              Register
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/login" variant="body2">
+                  {"Already have an account? Login"}
                 </Link>
               </Grid>
             </Grid>
@@ -108,17 +131,12 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     AuthLogin: state.Auth.login,
-    WrongUser: state.Auth.errorUser,
-    WrongPass: state.Auth.errorPass,
-    ErrorUser: state.Auth.errorTextUser,
-    ErrorPass: state.Auth.errorTextPass
+    RegDone: state.Reg.register,
+    WrongUser: state.Reg.errorUser,
+    WrongPass: state.Reg.errorPass,
+    ErrorUser: state.Reg.errorTextUser,
+    ErrorPass: state.Reg.errorTextPass
   };
 };
 
-export default connect(mapStateToProps, {
-  LoginThunkAction
-  // LoginSuccessAction,
-  // WrongPassAction,
-  // WrongUserAction,
-  // LoginErrorAction
-})(Login);
+export default connect(mapStateToProps, { RegisterThunkAction })(Register);

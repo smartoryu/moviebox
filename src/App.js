@@ -11,6 +11,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import ManageUsers from "./pages/ManageUsers";
 import ManageStudios from "./pages/ManageStudios";
 import NotFound from "./pages/NotFound";
@@ -42,6 +43,7 @@ class App extends Component {
         <Switch>
           <Route exact path={"/"} component={Homepage} />
           <Route path={"/login"} component={Login} />
+          <Route path={"/register"} component={Register} />
           <Route path={"/manage_users"} component={ManageUsers} />
           <Route path={"/manage_studios"} component={ManageStudios} />
           <Route path={"/404"} component={NotFound} />
