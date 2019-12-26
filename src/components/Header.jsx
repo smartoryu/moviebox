@@ -47,6 +47,7 @@ class Header extends Component {
             if (result.dismiss === Swal.DismissReason.timer) {
               console.log("user logged out"); // eslint-disable-line
             }
+            return <Redirect to={"/"} />;
           })
           .then(() => {
             Swal.fire({
@@ -54,15 +55,11 @@ class Header extends Component {
               icon: "success",
               showConfirmButton: false,
               timer: 1000
-            })
-              .then(() => {
-                localStorage.removeItem("userLogin");
-                this.props.LogoutSuccessAction();
-                window.location.reload(false);
-              })
-              .then(() => {
-                return <Redirect to={"/"} />;
-              });
+            }).then(() => {
+              localStorage.removeItem("userLogin");
+              this.props.LogoutSuccessAction();
+              window.location.reload(false);
+            });
           });
       }
     });
@@ -101,7 +98,7 @@ class Header extends Component {
         <DropdownItem href={"/manage_studios"}>Manage Studios</DropdownItem>
         <DropdownItem divider />
         <DropdownItem>
-          <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={"/change_password"} style={{ textDecoration: "none", color: "inherit" }}>
             Change Password
           </Link>
         </DropdownItem>
@@ -125,7 +122,7 @@ class Header extends Component {
         </DropdownItem>
         <DropdownItem divider />
         <DropdownItem>
-          <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={"/change_password"} style={{ textDecoration: "none", color: "inherit" }}>
             Change Password
           </Link>
         </DropdownItem>
@@ -174,7 +171,7 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     AuthLogin: state.Auth.login,
-    AuthUser: state.Auth.username,
+    AuthUser: state.Auth.name,
     AuthRole: state.Auth.role
   };
 };

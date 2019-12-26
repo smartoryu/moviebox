@@ -34,11 +34,16 @@ export const LoginThunkAction = (username, password) => {
       var user = await Axios.get(`${API_URL}/users?username=${username}`);
       /// cek apakah username terdaftar
       if (user.data.length) {
-        var { data } = await Axios.get(`${API_URL}/users?username=${username}&password=${password}`);
-        /// cek apakah username dan password sesuai
-        if (data.length) {
-          localStorage.setItem("userLogin", data[0].id);
-          dispatch(LoginSuccessAction(data[0]));
+        var pass = await Axios.get(`${API_URL}/users?username=${username}&password=${password}`);
+        var dummy = await Axios.get(`${API_URL}/users?username=${username}&dummy=${password}`);
+        /// cek apakah akun sudah ada passwordnya
+        if (pass.data.length) {
+          localStorage.setItem("userLogin", pass.data[0].id);
+          dispatch(LoginSuccessAction(pass.data[0]));
+          /// cek apakah akun masih punya password dummy
+        } else if (dummy.data.length) {
+          localStorage.setItem("userLogin", dummy.data[0].id);
+          dispatch(LoginSuccessAction(dummy.data[0]));
           /// password salah
         } else {
           dispatch({

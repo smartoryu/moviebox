@@ -12,6 +12,7 @@ import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ChangePass from "./pages/ChangePass";
 import ManageUsers from "./pages/ManageUsers";
 import ManageStudios from "./pages/ManageStudios";
 import NotFound from "./pages/NotFound";
@@ -44,6 +45,7 @@ class App extends Component {
           <Route exact path={"/"} component={Homepage} />
           <Route path={"/login"} component={Login} />
           <Route path={"/register"} component={Register} />
+          <Route path={"/change_password"} component={ChangePass} />
           <Route path={"/manage_users"} component={ManageUsers} />
           <Route path={"/manage_studios"} component={ManageStudios} />
           <Route path={"/404"} component={NotFound} />

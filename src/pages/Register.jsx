@@ -35,7 +35,10 @@ class Register extends Component {
   };
 
   render() {
-    if (this.props.RegDone) {
+    const { AuthLogin, RegisterDone, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
+    console.log(RegisterDone);
+
+    if (RegisterDone || AuthLogin) {
       return <Redirect to={"/"} />;
     }
 
@@ -54,8 +57,8 @@ class Register extends Component {
               required
               fullWidth
               inputRef={el => (this.name = el)}
-              // error={WrongUser}
-              // helperText={ErrorUser}
+              error={WrongUser}
+              helperText={ErrorUser}
               label="Name"
               name="name"
               autoComplete="name"
@@ -68,36 +71,36 @@ class Register extends Component {
               required
               fullWidth
               inputRef={el => (this.username = el)}
-              // error={WrongUser}
-              // helperText={ErrorUser}
+              error={WrongUser}
+              helperText={ErrorUser}
               label="Username"
               name="username"
               autoComplete="username"
               autoFocus
             />
             <TextField // PASSWORD FIELD
-              id="register-password"
+              id="register-password1"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               inputRef={el => (this.password1 = el)}
-              // error={WrongPass}
-              // helperText={ErrorPass}
+              error={WrongPass}
+              helperText={ErrorPass}
               label="Password"
               name="password1"
               type="password"
               autoComplete="current-password"
             />
             <TextField // RE-ENTER PASSWORD FIELD
-              id="register-password"
+              id="register-password2"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               inputRef={el => (this.password2 = el)}
-              // error={WrongPass}
-              // helperText={ErrorPass}
+              error={WrongPass}
+              helperText={ErrorPass}
               label="Re-enter Password"
               name="password2"
               type="password"
@@ -131,11 +134,11 @@ class Register extends Component {
 const mapStateToProps = state => {
   return {
     AuthLogin: state.Auth.login,
-    RegDone: state.Reg.register,
+    RegisterDone: state.Reg.register,
     WrongUser: state.Reg.errorUser,
+    ErrorUser: state.Reg.errorUserText,
     WrongPass: state.Reg.errorPass,
-    ErrorUser: state.Reg.errorTextUser,
-    ErrorPass: state.Reg.errorTextPass
+    ErrorPass: state.Reg.errorPassText
   };
 };
 

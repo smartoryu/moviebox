@@ -31,3 +31,47 @@ export const RegisterThunkAction = (name, username, password1, password2) => {
     }
   };
 };
+
+export const UpdatePassThunkAction = (userId, name, username, role, newPass1, newPass2) => {
+  var updatePass = { userId, name, username, role, password: newPass2 };
+  return async dispatch => {
+    if (newPass1 !== newPass2) {
+      dispatch({ type: "WRONG_NEWPASS", payload: "Password doesn't match!" });
+    } else if (newPass1 === newPass2) {
+      try {
+        await Axios.put(`${API_URL}/users/${userId}`, updatePass);
+        await dispatch({ type: "REG_SUCCESS" });
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+        dispatch({ type: "REG_ERROR", payload: "Server error!" });
+      }
+    }
+  };
+};
+
+export const ChangePassThunkAction = (userId, name, username, role, oldPass, newPass1, newPass2) => {
+  var changePass = { userId, name, username, role, password: newPass2 };
+  return async dispatch => {
+    try {
+      var { data } = await Axios.get(`${API_URL}/users/${userId}`);
+      if (oldPass !== data.password) {
+        dispatch({ type: "WRONG_OLDPASS", payload: "Wrong old password" });
+      } else if (newPass1 === oldPass) {
+        dispatch({ type: "WRONG_NEWPASS", payload: "New password should be different!" });
+      } else if (newPass1 === newPass2) {
+        try {
+          await Axios.put(`${API_URL}/users/${userId}`, changePass);
+          await dispatch({ type: "REG_SUCCESS" });
+          window.location.reload();
+        } catch (error) {
+          console.log(error);
+          dispatch({ type: "REG_ERROR", payload: "Server error!" });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "REG_ERROR", payload: "Server error!" });
+    }
+  };
+};

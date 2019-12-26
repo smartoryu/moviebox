@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   id: 0,
   username: "",
   password: "",
+  dummy: "",
   role: "",
   login: false,
   error: false,

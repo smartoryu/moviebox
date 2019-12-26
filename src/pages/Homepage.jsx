@@ -1,22 +1,24 @@
-import React, { Component } from "react"
-import Axios from "axios"
-import { Link } from "react-router-dom"
+import React, { Component } from "react";
+import Axios from "axios";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { Modal, ModalBody, ModalFooter } from "reactstrap";
 
-import { API_URL } from "../support/API_URL"
-import Loading from "../components/Loading"
+import { API_URL } from "../support/API_URL";
+import Loading from "../components/Loading";
 
 class Homepage extends Component {
   state = {
     loading: true,
     dataMovies: []
-  }
+  };
 
   async componentDidMount() {
     try {
-      var { data } = await Axios.get(`${API_URL}/movies`)
-      this.setState({ dataMovies: data, loading: false })
+      var { data } = await Axios.get(`${API_URL}/movies`);
+      this.setState({ dataMovies: data, loading: false });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -33,22 +35,41 @@ class Homepage extends Component {
             <h5 className="card-title mx-auto bold">{val.title}</h5>
           </div>
         </div>
-      )
-    })
-  }
+      );
+    });
+  };
 
   render() {
     if (this.state.loading) {
       // console.log("dataMovies", this.state.dataMovies);
-      return <Loading />
+      return <Loading />;
     }
 
     return (
       <div className="mx-3">
+        {console.log(this.props.AuthLogin, this.props.AuthPass)}
+        <Modal centered size="sm" isOpen={this.props.AuthLogin && this.props.AuthDummy === true}>
+          <ModalBody>You should update your password first.</ModalBody>
+          <ModalFooter>
+            <button className="btn btn-dark btn-sm">
+              <Link to="/change_password" style={{ textDecoration: "none", color: "inherit" }}>
+                Ok!
+              </Link>
+            </button>
+          </ModalFooter>
+        </Modal>
+
         <div className="card-deck mt-5 mx-6 px-5">{this.renderMovies()}</div>
       </div>
-    )
+    );
   }
 }
 
-export default Homepage
+const mapStateToProps = state => {
+  return {
+    AuthLogin: state.Auth.login,
+    AuthDummy: state.Auth.dummy
+  };
+};
+
+export default connect(mapStateToProps)(Homepage);
