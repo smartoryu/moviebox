@@ -6,10 +6,10 @@ const INITIAL_STATE = {
   role: "",
   login: false,
   error: false,
-  errorUser: false,
-  errorPass: false,
-  errorTextUser: "",
-  errorTextPass: "",
+  wrongUser: false,
+  wrongPass: false,
+  errorUser: "",
+  errorPass: "",
   errorText: ""
 };
 
@@ -20,8 +20,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         ...action.payload,
         login: true,
-        errorUser: false,
-        errorPass: false,
+        wrongUser: false,
+        wrongPass: false,
         errorText: ""
       };
     case "LOGIN_RESET":
@@ -29,15 +29,15 @@ export default (state = INITIAL_STATE, action) => {
     case "WRONG_USER":
       return {
         ...state,
-        errorUser: true,
-        errorTextUser: action.payload
+        wrongUser: true,
+        errorUser: action.payload
       };
     case "WRONG_PASS":
       return {
         ...state,
-        errorUser: true,
-        errorPass: true,
-        errorTextPass: action.payload
+        wrongUser: true,
+        wrongPass: true,
+        errorPass: action.payload
       };
     case "LOGIN_ERROR":
       return {
@@ -45,10 +45,10 @@ export default (state = INITIAL_STATE, action) => {
         error: true,
         errorText: action.payload
       };
-    case "RESET_PASS":
-      return { ...state, ...action.payload };
     case "LOGOUT_SUCCESS":
       return INITIAL_STATE;
+    case "SUSPENDED":
+      return { ...state, wrongUser: true, errorUser: action.payload };
     default:
       return state;
   }

@@ -33,7 +33,7 @@ export const RegisterThunkAction = (name, username, password1, password2) => {
 };
 
 export const UpdatePassThunkAction = (userId, name, username, role, newPass1, newPass2) => {
-  var updatePass = { userId, name, username, role, password: newPass2 };
+  var updatePass = { id: userId, name, username, password: newPass2, role };
   return async dispatch => {
     if (newPass1 !== newPass2) {
       dispatch({ type: "WRONG_NEWPASS", payload: "Password doesn't match!" });
@@ -51,7 +51,7 @@ export const UpdatePassThunkAction = (userId, name, username, role, newPass1, ne
 };
 
 export const ChangePassThunkAction = (userId, name, username, role, oldPass, newPass1, newPass2) => {
-  var changePass = { userId, name, username, role, password: newPass2 };
+  var changePass = { userId, name, username, password: newPass2, role };
   return async dispatch => {
     try {
       var { data } = await Axios.get(`${API_URL}/users/${userId}`);

@@ -11,25 +11,25 @@
       "name": "Prasty",
       "username": "prasty",
       "password": "admin",
-      "dummy": "user",
+      "dummy": "admin",
       "role": "user",
       "id": 2
     },
     {
       "name": "Yudi",
       "username": "yudi",
-      "password": "yudi",
-      "dummy": "",
+      "password": "admin",
+      "dummy": "admin",
       "role": "user",
       "id": 3
     },
     {
-      "userId": 4,
       "name": "Agus",
       "username": "agus",
       "role": "user",
       "password": "mama",
-      "id": 4
+      "id": 4,
+      "suspend": true
     }
   ],
   "studios": [

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { connect } from "react-redux";
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Popover, PopoverHeader } from "reactstrap";
-import { FaRegEdit, FaRegTrashAlt, FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
-import Loader from "react-loader-spinner";
-import Swal from "sweetalert2";
+import { SuspendThunkAction } from "../redux/action";
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 import { API_URL } from "../support/API_URL";
+import Loader from "react-loader-spinner";
+import Swal from "sweetalert2";
 import NotFound from "./NotFound";
 
 class ManageUsers extends Component {
@@ -16,9 +17,7 @@ class ManageUsers extends Component {
     userId: -1,
     indexEdit: -1,
     isEditOpen: false,
-    popIndex: -1,
-    popSave: false,
-    popCancel: false
+    tooltipOpen: false
   };
 
   async componentDidMount() {
@@ -92,6 +91,11 @@ class ManageUsers extends Component {
     this.setState({ indexEdit: -1 });
   };
 
+  btnDelete = index => {
+    console.log("suspended");
+    this.props.SuspendThunkAction(this.state.dataUsers[index]);
+  };
+
   /* ============================================================/
   /                        RENDER BODY                           /
   ==============================================================*/
@@ -104,11 +108,9 @@ class ManageUsers extends Component {
           <td>{val.username}</td>
           <td>{val.role}</td>
           <td>
-            {val.role === "admin" ? null : (
-              <button onClick={() => this.btnDelete(index)} className="btn btn-danger action">
-                <FaRegTrashAlt />
-              </button>
-            )}
+            <button onClick={() => this.btnDelete(index)} className="btn btn-danger action">
+              <FaRegTrashAlt />
+            </button>
             <button onClick={() => this.btnEdit(index)} className="btn btn-primary action">
               <FaRegEdit />
             </button>
@@ -124,7 +126,7 @@ class ManageUsers extends Component {
 
   render() {
     const { AuthLogin, AuthRole } = this.props;
-    const { dataUsers, indexEdit, isEditOpen, popSave, popCancel } = this.state;
+    const { dataUsers, indexEdit, isEditOpen } = this.state;
     // console.log("state", this.state.dataUsers);
 
     if (AuthLogin && AuthRole === "admin") {
@@ -226,4 +228,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ManageUsers);
+export default connect(mapStateToProps, { SuspendThunkAction })(ManageUsers);

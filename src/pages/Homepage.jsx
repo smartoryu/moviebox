@@ -47,17 +47,19 @@ class Homepage extends Component {
 
     return (
       <div className="mx-3">
-        {console.log(this.props.AuthLogin, this.props.AuthPass)}
-        <Modal centered size="sm" isOpen={this.props.AuthLogin && this.props.AuthDummy === true}>
-          <ModalBody>You should update your password first.</ModalBody>
-          <ModalFooter>
-            <button className="btn btn-dark btn-sm">
-              <Link to="/change_password" style={{ textDecoration: "none", color: "inherit" }}>
-                Ok!
-              </Link>
-            </button>
-          </ModalFooter>
-        </Modal>
+        {/* {console.log(this.props.AuthLogin, this.props.AuthPass)} */}
+        {this.props.AuthDummy.length ? (
+          <Modal centered size="sm" isOpen={this.props.AuthLogin}>
+            <ModalBody>You should update your password first.</ModalBody>
+            <ModalFooter>
+              <button className="btn btn-dark btn-sm">
+                <Link to="/change_password" style={{ textDecoration: "none", color: "inherit" }}>
+                  Ok!
+                </Link>
+              </button>
+            </ModalFooter>
+          </Modal>
+        ) : null}
 
         <div className="card-deck mt-5 mx-6 px-5">{this.renderMovies()}</div>
       </div>

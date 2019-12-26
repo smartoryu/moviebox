@@ -108,10 +108,10 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     AuthLogin: state.Auth.login,
-    WrongUser: state.Auth.errorUser,
-    WrongPass: state.Auth.errorPass,
-    ErrorUser: state.Auth.errorTextUser,
-    ErrorPass: state.Auth.errorTextPass
+    WrongUser: state.Auth.wrongUser,
+    WrongPass: state.Auth.wrongPass,
+    ErrorUser: state.Auth.errorUser,
+    ErrorPass: state.Auth.errorPass
   };
 };
 

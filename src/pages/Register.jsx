@@ -76,7 +76,6 @@ class Register extends Component {
               label="Username"
               name="username"
               autoComplete="username"
-              autoFocus
             />
             <TextField // PASSWORD FIELD
               id="register-password1"
@@ -135,9 +134,9 @@ const mapStateToProps = state => {
   return {
     AuthLogin: state.Auth.login,
     RegisterDone: state.Reg.register,
-    WrongUser: state.Reg.errorUser,
+    WrongUser: state.Reg.wrongUser,
     ErrorUser: state.Reg.errorUserText,
-    WrongPass: state.Reg.errorPass,
+    WrongPass: state.Reg.wrongPass,
     ErrorPass: state.Reg.errorPassText
   };
 };
