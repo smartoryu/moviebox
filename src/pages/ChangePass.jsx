@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import CryptoJS from "crypto-js";
 import { ChangePassThunkAction, UpdatePassThunkAction } from "../redux/action";
 
 import Button from "@material-ui/core/Button";
@@ -18,13 +19,13 @@ class ChangePass extends Component {
     var name = this.props.AuthName;
     var username = this.props.AuthUser;
     var role = this.props.AuthRole;
-    var newPass1 = this.newPassword1.value;
-    var newPass2 = this.newPassword2.value;
+    var newPass1 = CryptoJS.SHA1(this.newPassword1.value).toString(CryptoJS.enc.Hex);
+    var newPass2 = CryptoJS.SHA1(this.newPassword2.value).toString(CryptoJS.enc.Hex);
 
     if (this.props.AuthDummy) {
       return this.props.UpdatePassThunkAction(userId, name, username, role, newPass1, newPass2);
     } else {
-      var oldPass = this.oldPassword.value;
+      var oldPass = CryptoJS.SHA1(this.oldPassword.value).toString(CryptoJS.enc.Hex);
       return this.props.ChangePassThunkAction(userId, name, username, role, oldPass, newPass1, newPass2);
     }
   };

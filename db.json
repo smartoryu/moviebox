@@ -1,35 +1,43 @@
 {
   "users": [
     {
+      "userId": 1,
       "name": "Kenang",
       "username": "admin",
-      "password": "admin",
+      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
       "role": "admin",
       "id": 1
     },
     {
+      "id": 2,
       "name": "Prasty",
       "username": "prasty",
-      "password": "admin",
-      "dummy": "admin",
-      "role": "user",
-      "id": 2
+      "password": "333ebb676df99521f2e14aa89bffe68e40691cc7",
+      "role": "user"
     },
     {
       "name": "Yudi",
       "username": "yudi",
-      "password": "admin",
-      "dummy": "admin",
+      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
+      "dummy": "1234",
       "role": "user",
       "id": 3
     },
     {
       "name": "Agus",
       "username": "agus",
+      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
+      "dummy": "1234",
       "role": "user",
-      "password": "mama",
-      "id": 4,
-      "suspend": true
+      "id": 4
+    },
+    {
+      "name": "Agus Prapatan",
+      "username": "agus4",
+      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
+      "dummy": "1234",
+      "role": "user",
+      "id": 5
     }
   ],
   "studios": [

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { connect } from "react-redux";
-import { SuspendThunkAction } from "../redux/action";
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { SuspendThunkAction, UnsuspendThunkAction } from "../redux/action";
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, UncontrolledTooltip } from "reactstrap";
+import { FaRegEdit, FaRegThumbsDown, FaRegCheckCircle, FaRegTimesCircle, FaRegThumbsUp } from "react-icons/fa";
 
 import { API_URL } from "../support/API_URL";
 import Loader from "react-loader-spinner";
@@ -91,9 +91,14 @@ class ManageUsers extends Component {
     this.setState({ indexEdit: -1 });
   };
 
-  btnDelete = index => {
+  btnSuspend = index => {
     console.log("suspended");
     this.props.SuspendThunkAction(this.state.dataUsers[index]);
+  };
+
+  btnUnsuspend = index => {
+    console.log("unsuspended");
+    this.props.UnsuspendThunkAction(this.state.dataUsers[index]);
   };
 
   /* ============================================================/
@@ -108,13 +113,38 @@ class ManageUsers extends Component {
           <td>{val.username}</td>
           <td>{val.role}</td>
           <td>
-            <button onClick={() => this.btnDelete(index)} className="btn btn-danger action">
-              <FaRegTrashAlt />
-            </button>
-            <button onClick={() => this.btnEdit(index)} className="btn btn-primary action">
+            {val.suspend ? (
+              <button
+                id={"TooltipUnsuspend-" + index}
+                onClick={() => this.btnUnsuspend(index)}
+                className="btn btn-success action">
+                <FaRegThumbsUp />
+              </button>
+            ) : (
+              <button
+                id={"TooltipSuspend-" + index}
+                onClick={() => this.btnSuspend(index)}
+                className="btn btn-warning action">
+                <FaRegThumbsDown />
+              </button>
+            )}
+            <button id={"TooltipEdit-" + index} onClick={() => this.btnEdit(index)} className="btn btn-primary action">
               <FaRegEdit />
             </button>
           </td>
+
+          {val.suspend ? (
+            <UncontrolledTooltip placement="left" target={"TooltipUnsuspend-" + index}>
+              Unsuspend
+            </UncontrolledTooltip>
+          ) : (
+            <UncontrolledTooltip placement="left" target={"TooltipSuspend-" + index}>
+              Suspend
+            </UncontrolledTooltip>
+          )}
+          <UncontrolledTooltip placement="right" target={"TooltipEdit-" + index}>
+            Edit
+          </UncontrolledTooltip>
         </tr>
       );
     });
@@ -174,13 +204,20 @@ class ManageUsers extends Component {
                 )}
               </ModalBody>
               <ModalFooter>
-                <button onClick={() => this.btnSave(indexEdit)} className="btn btn-success action">
-                  Save
+                <button id="TooltipSave" onClick={() => this.btnSave(indexEdit)} className="btn btn-success action">
+                  <FaRegCheckCircle />
                 </button>
-                <button onClick={this.btnCancel} className="btn btn-danger action">
-                  Cancel
+                <button id="TooltipCancel" onClick={this.btnCancel} className="btn btn-danger action">
+                  <FaRegTimesCircle />
                 </button>
               </ModalFooter>
+
+              <UncontrolledTooltip placement="bottom" target={"TooltipSave"}>
+                Save
+              </UncontrolledTooltip>
+              <UncontrolledTooltip placement="bottom" target={"TooltipCancel"}>
+                Cancel
+              </UncontrolledTooltip>
             </Modal>
           )}
 
@@ -228,4 +265,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { SuspendThunkAction })(ManageUsers);
+export default connect(mapStateToProps, { SuspendThunkAction, UnsuspendThunkAction })(ManageUsers);

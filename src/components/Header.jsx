@@ -76,7 +76,7 @@ class Header extends Component {
           Login
         </DropdownItem>
         <DropdownItem>
-          <Link to={"/"} style={{ textDecoration: "none", color: "#a6a6a6" }}>
+          <Link to={"/register"} style={{ textDecoration: "none", color: "#a6a6a6" }}>
             Are you new?
           </Link>
         </DropdownItem>

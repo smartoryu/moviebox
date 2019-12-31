@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import CryptoJS from "crypto-js";
 import { RegisterThunkAction } from "../redux/action";
 
 import Button from "@material-ui/core/Button";
@@ -14,10 +15,14 @@ import Container from "@material-ui/core/Container";
 
 class Register extends Component {
   handleRegister = () => {
+    console.log("masuk");
+
     var name = this.name.value;
     var username = this.username.value.toLowerCase();
-    var password1 = this.password1.value;
-    var password2 = this.password2.value;
+    var password1 = CryptoJS.SHA1(this.password1.value).toString(CryptoJS.enc.Hex);
+    var password2 = CryptoJS.SHA1(this.password2.value).toString(CryptoJS.enc.Hex);
+    console.log(password1);
+    console.log(password2);
     this.props.RegisterThunkAction(name, username, password1, password2);
   };
 
@@ -36,7 +41,7 @@ class Register extends Component {
 
   render() {
     const { AuthLogin, RegisterDone, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
-    console.log(RegisterDone);
+    // console.log(RegisterDone);
 
     if (RegisterDone || AuthLogin) {
       return <Redirect to={"/"} />;
@@ -57,8 +62,6 @@ class Register extends Component {
               required
               fullWidth
               inputRef={el => (this.name = el)}
-              error={WrongUser}
-              helperText={ErrorUser}
               label="Name"
               name="name"
               autoComplete="name"
@@ -107,7 +110,7 @@ class Register extends Component {
             />
 
             <Button // SIGN-IN BUTTON
-              onClick={this.handleLogin}
+              onClick={this.handleRegister}
               fullWidth
               variant="contained"
               color="primary"
@@ -135,9 +138,9 @@ const mapStateToProps = state => {
     AuthLogin: state.Auth.login,
     RegisterDone: state.Reg.register,
     WrongUser: state.Reg.wrongUser,
-    ErrorUser: state.Reg.errorUserText,
+    ErrorUser: state.Reg.errorUser,
     WrongPass: state.Reg.wrongPass,
-    ErrorPass: state.Reg.errorPassText
+    ErrorPass: state.Reg.errorPass
   };
 };
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import CryptoJS from "crypto-js";
 import { LoginThunkAction } from "../redux/action";
 
 import Button from "@material-ui/core/Button";
@@ -15,7 +16,7 @@ import Container from "@material-ui/core/Container";
 class Login extends Component {
   handleLogin = () => {
     var username = this.username.value;
-    var password = this.password.value;
+    var password = CryptoJS.SHA1(this.password.value).toString(CryptoJS.enc.Hex);
     this.props.LoginThunkAction(username, password);
   };
 
@@ -35,7 +36,7 @@ class Login extends Component {
   render() {
     const { AuthLogin, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
 
-    console.log("login page", AuthLogin);
+    // console.log("login page", AuthLogin);
     if (AuthLogin) {
       return <Redirect to={"/"} />;
     }

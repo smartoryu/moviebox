@@ -26,7 +26,7 @@ export const LoginThunkAction = (username, password) => {
   return async dispatch => {
     try {
       var user = await Axios.get(`${API_URL}/users?username=${username}`);
-      console.log(user.data[0]["suspend"]);
+      // console.log(user.data[0]["suspend"]);
 
       /// cek apakah username terdaftar
       if (user.data.length) {
@@ -74,14 +74,14 @@ export const LoginThunkAction = (username, password) => {
 
 export const SuspendThunkAction = dataUser => {
   return async dispatch => {
-    var { value, dismiss } = await Swal.fire({
+    var { value } = await Swal.fire({
       title: `Are you sure suspending ${dataUser.name} (${dataUser.username})?`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonColor: "#3085d6",
-      cancelButtonText: "Cancel",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Yes",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "No",
       reverseButtons: true
     });
     if (value) {
@@ -97,8 +97,37 @@ export const SuspendThunkAction = dataUser => {
       } catch (error) {
         console.log(error);
       }
-    } else if (dismiss === Swal.DismissReason.cancel) {
-      Swal.fire("Cancelled", "Cancelled", "error");
+    }
+  };
+};
+
+export const UnsuspendThunkAction = dataUser => {
+  return async () => {
+    var { value } = await Swal.fire({
+      title: `Are you sure suspending ${dataUser.name} (${dataUser.username})?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Yes",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "No",
+      reverseButtons: true
+    });
+    if (value) {
+      try {
+        var user = await Axios.get(`${API_URL}/users?id=${dataUser.id}`);
+        var suspendUser = { ...user.data[0], suspend: false };
+        if (user.data[0]["suspend"]) {
+          try {
+            await Axios.put(`${API_URL}/users/${dataUser.id}`, suspendUser);
+            Swal.fire("Unsuspend", "", "success");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 };
