@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { connect } from "react-redux";
+import CryptoJS from "crypto-js";
 import { SuspendThunkAction, UnsuspendThunkAction } from "../redux/action";
 import { Table, Modal, ModalHeader, ModalBody, ModalFooter, UncontrolledTooltip } from "reactstrap";
 import { FaRegEdit, FaRegThumbsDown, FaRegCheckCircle, FaRegTimesCircle, FaRegThumbsUp } from "react-icons/fa";
@@ -48,10 +49,10 @@ class ManageUsers extends Component {
 
     const ref = this.refs;
     var id = this.state.userId;
-    var password = this.props.AuthPass;
+    var password = "";
     var editName = ref.edit_name.value;
     var editUsername = ref.edit_username.value;
-    var editDummy = ref.edit_dummy.value;
+    var editDummy = CryptoJS.SHA1(ref.edit_dummy.value).toString(CryptoJS.enc.Hex);
     var editRole = ref.edit_role.value;
     var newObj = { name: editName, username: editUsername, password, dummy: editDummy, role: editRole };
     if ({ ...(newObj !== "") }) {

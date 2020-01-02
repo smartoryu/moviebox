@@ -146,7 +146,9 @@ class Header extends Component {
           <Collapse isOpen={this.state.menuOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="https://github.com/smartoryu/moviebox">GitHub</NavLink>
+                <NavLink href="https://github.com/smartoryu/moviebox" target="_blank">
+                  GitHub
+                </NavLink>
               </NavItem>
 
               <UncontrolledDropdown isOpen={this.state.onMouseEnter} nav inNavbar>

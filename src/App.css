@@ -1,3 +1,7 @@
+a {
+  text-decoration: none !important;
+}
+
 td {
   line-height: 30px;
 }
@@ -24,6 +28,26 @@ button.action {
   font-weight: 450 !important;
 }
 
+.details-link {
+  text-align: center;
+  display: inline-block;
+  border-top: 1px solid #939598;
+  border-bottom: 1px solid #939598;
+}
+
+.details-link span {
+  color: #939598;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 70px;
+  transition: all 0.3x ease-in-out;
+}
+
+.details-link span:hover {
+  color: inherit;
+}
+
 .img-container.radius {
   border-radius: 10px;
   overflow: hidden;
@@ -35,6 +59,13 @@ img {
 
 img.card-img-top:hover {
   transform: scale(1.1);
+}
+
+.modal-trailer {
+  background-color: transparent;
+  width: 700;
+  padding: 0;
+  border: hidden;
 }
 
 #notfound {

@@ -16,26 +16,25 @@
       "role": "user"
     },
     {
+      "id": 3,
       "name": "Yudi",
       "username": "yudi",
-      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
-      "dummy": "1234",
-      "role": "user",
-      "id": 3
+      "password": "4a33aa96f303c8690d291da017790ea573086954",
+      "role": "user"
     },
     {
       "name": "Agus",
       "username": "agus",
-      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
-      "dummy": "1234",
+      "password": "",
+      "dummy": "7110eda4d09e062aa5e4a390b0a572ac0d2c0220",
       "role": "user",
       "id": 4
     },
     {
       "name": "Agus Prapatan",
       "username": "agus4",
-      "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
-      "dummy": "1234",
+      "password": "",
+      "dummy": "7110eda4d09e062aa5e4a390b0a572ac0d2c0220",
       "role": "user",
       "id": 5
     }

@@ -27,7 +27,7 @@ class Homepage extends Component {
       return (
         <div key={index} className="card px-1">
           <div className="img-container radius">
-            <Link to={``}>
+            <Link to={`/movie_details/${val.id}`}>
               <img src={val.image} alt="..." className="card-img-top" />
             </Link>
           </div>
