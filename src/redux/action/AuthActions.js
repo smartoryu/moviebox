@@ -25,45 +25,22 @@ export const LogoutSuccessAction = () => {
 export const LoginThunkAction = (username, password) => {
   return async dispatch => {
     try {
-      var user = await Axios.get(`${API_URL}/users?username=${username}`);
-      // console.log(user.data[0]["suspend"]);
+      var user = await Axios.get(`${API_URL}/auth/login?username=${username}&password=${password}&dummy=${password}`);
+      console.log("user", user.data[0]);
+      if (user.data.status === "error") dispatch({ type: "WRONG_USER", payload: user.data.message });
 
-      /// cek apakah username terdaftar
-      if (user.data.length) {
-        /// cek apakah user di-suspend
-        if (user.data[0]["suspend"]) {
-          dispatch({ type: "SUSPENDED", payload: "Your account was suspended" });
-        } else {
-          try {
-            var pass = await Axios.get(`${API_URL}/users?username=${username}&password=${password}`);
-            try {
-              var dummy = await Axios.get(`${API_URL}/users?username=${username}&dummy=${password}`);
-            } catch (error) {
-              console.log(error);
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
-
-        /// cek apakah akun sudah ada passwordnya
-        if (pass.data.length) {
-          localStorage.setItem("userLogin", pass.data[0].id);
-          dispatch(LoginSuccessAction(pass.data[0]));
-          /// cek apakah akun masih punya password dummy
-        } else if (dummy.data.length) {
-          localStorage.setItem("userLogin", dummy.data[0].id);
-          dispatch(LoginSuccessAction(dummy.data[0]));
-          /// password salah
-        } else {
-          dispatch({
-            type: "WRONG_PASS",
-            payload: "Username/Password doesn't match!"
-          });
-        }
-        /// username tidak terdaftar
-      } else {
-        dispatch({ type: "WRONG_USER", payload: "Username not registered!" });
+      switch (user.data.status) {
+        case "RESET_PASS":
+          return {};
+        case "WRONG_USER":
+          return dispatch({ type: "WRONG_USER", payload: user.data.message });
+        case "WRONG_PASS":
+          return dispatch({ type: "WRONG_PASS", payload: user.data.message });
+        case "SUSPENDED":
+          return dispatch({ type: "SUSPENDED", payload: user.data.message });
+        default:
+          localStorage.setItem("userLogin", user.data[0]["id"]);
+          return dispatch(LoginSuccessAction(user.data[0]));
       }
     } catch (err) {
       console.log(err);
@@ -90,7 +67,8 @@ export const SuspendThunkAction = dataUser => {
         var suspendedUser = { ...user.data[0], suspend: true };
         try {
           await Axios.put(`${API_URL}/users/${dataUser.id}`, suspendedUser);
-          Swal.fire("Suspended", "", "success");
+          await Swal.fire("Suspended", "", "success");
+          window.location.reload();
         } catch (error) {
           console.log(error);
         }
@@ -120,7 +98,8 @@ export const UnsuspendThunkAction = dataUser => {
         if (user.data[0]["suspend"]) {
           try {
             await Axios.put(`${API_URL}/users/${dataUser.id}`, suspendUser);
-            Swal.fire("Unsuspend", "", "success");
+            await Swal.fire("Unsuspend", "", "success");
+            window.location.reload();
           } catch (error) {
             console.log(error);
           }
@@ -150,3 +129,55 @@ export const LoginErrorAction = () => {
     payload: "Server error!"
   };
 };
+
+/*
+      /// cek apakah username terdaftar
+      if (user.data[0]) {
+        console.log("USER REGISTERED");
+        /// cek apakah user di-suspend
+        if (user.data[0]["suspend"] === 0) {
+          console.log("USER NOT SUSPENDED");
+
+          // GET PASS / DUMMY PASS
+          try {
+            var pass = await Axios.get(`${API_URL}/auth/login?username=${username}&password=${password}`);
+            try {
+              var dummy = await Axios.get(`${API_URL}/auth/login?username=${username}&dummy=${password}`);
+            } catch (error) {
+              console.log("dummy", error);
+            }
+          } catch (error) {
+            console.log("pass", error);
+          }
+          console.log(pass.data);
+
+          /// cek apakah akun sudah ada passwordnya
+          if (pass.data.length) {
+            console.log("pass ada");
+            // localStorage.setItem("userLogin", pass.data[0].id);
+            // localStorage.setItem("userToken", pass.data[0].token);
+            // dispatch(LoginSuccessAction(pass.data[0]));
+            /// cek apakah akun masih punya password dummy
+          } else if (dummy.data.length) {
+            console.log("dummy ada");
+            // localStorage.setItem("userLogin", dummy.data[0].id);
+            // localStorage.setItem("userToken", pass.data[0].token);
+            // dispatch(LoginSuccessAction(dummy.data[0]));
+            /// password salah
+          } else {
+            console.log("pass salah");
+            // dispatch({
+            //   type: "WRONG_PASS",
+            //   payload: "Username/Password doesn't match!"
+            // });
+          }
+        } else {
+          console.log("USER SUSPENDED");
+          dispatch({ type: "SUSPENDED", payload: "Your account was suspended" });
+        }
+        /// username tidak terdaftar
+      } else {
+        console.log("USER NOT REGISTERED");
+        // dispatch({ type: "WRONG_USER", payload: "Username not registered!" });
+      }
+      */

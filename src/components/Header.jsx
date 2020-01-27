@@ -33,10 +33,9 @@ class Header extends Component {
       confirmButtonText: "Logout!"
     }).then(result => {
       if (result.value) {
-        // let timerInterval;
         Swal.fire({
           title: "Logging out!",
-          timer: 1800,
+          timer: 1000,
           allowOutsideClick: false,
           timerProgressBar: true,
           onBeforeOpen: () => {
@@ -44,10 +43,7 @@ class Header extends Component {
           }
         })
           .then(result => {
-            if (result.dismiss === Swal.DismissReason.timer) {
-              console.log("user logged out"); // eslint-disable-line
-            }
-            return <Redirect to={"/"} />;
+            if (result.dismiss === Swal.DismissReason.timer) return <Redirect to={"/"} />;
           })
           .then(() => {
             Swal.fire({
@@ -58,7 +54,6 @@ class Header extends Component {
             }).then(() => {
               localStorage.removeItem("userLogin");
               this.props.LogoutSuccessAction();
-              window.location.reload(false);
             });
           });
       }
@@ -80,6 +75,11 @@ class Header extends Component {
             Are you new?
           </Link>
         </DropdownItem>
+        <DropdownItem>
+          <Link to={"/manage_movies"} style={{ textDecoration: "none", color: "inherit" }}>
+            Manage Movies
+          </Link>
+        </DropdownItem>
         <DropdownItem divider />
         <DropdownItem disabled>Reset</DropdownItem>
       </DropdownMenu>
@@ -91,7 +91,7 @@ class Header extends Component {
       <DropdownMenu onMouseLeave={() => this.setState({ onMouseEnter: false })} right>
         <DropdownItem href={"/manage_users"}>Manage Users</DropdownItem>
         <DropdownItem>
-          <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={"/manage_movies"} style={{ textDecoration: "none", color: "inherit" }}>
             Manage Movies
           </Link>
         </DropdownItem>

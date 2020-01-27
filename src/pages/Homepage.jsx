@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Modal, ModalBody, ModalFooter } from "reactstrap";
+// import { Modal, ModalBody, ModalFooter } from "reactstrap";
 
 import { API_URL } from "../support/API_URL";
 import Loading from "../components/Loading";
@@ -28,7 +28,7 @@ class Homepage extends Component {
         <div key={index} className="card px-1">
           <div className="img-container radius">
             <Link to={`/movie_details/${val.id}`}>
-              <img src={val.image} alt="..." className="card-img-top" />
+              <img src={API_URL + val.pathimage} alt="..." className="card-img-top" />
             </Link>
           </div>
           <div className="card-body">
@@ -48,7 +48,7 @@ class Homepage extends Component {
     return (
       <div className="mx-3">
         {/* {console.log(this.props.AuthLogin, this.props.AuthPass)} */}
-        {this.props.AuthDummy.length ? (
+        {/* {this.props.AuthDummy.length ? (
           <Modal centered size="sm" isOpen={this.props.AuthLogin}>
             <ModalBody>You should update your password first.</ModalBody>
             <ModalFooter>
@@ -59,7 +59,7 @@ class Homepage extends Component {
               </button>
             </ModalFooter>
           </Modal>
-        ) : null}
+        ) : null} */}
 
         <div className="card-deck mt-5 mx-6 px-5">{this.renderMovies()}</div>
       </div>

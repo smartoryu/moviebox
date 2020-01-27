@@ -7,18 +7,19 @@ import { Modal, ModalBody } from "reactstrap";
 
 class MovieDetails extends Component {
   state = {
-    dataMovieDetails: {},
+    dataMovie: {},
     isTrailerOpen: false,
     isLogin: false,
     toLogin: false,
-    toBuyTicket: false
+    toBuyTicket: false,
+    content: ["genre", "producer", "director", "writer", "production", "casts"]
   };
 
   async componentDidMount() {
     // console.log(this.props);
     try {
       var { data } = await Axios.get(`${API_URL}/movies/${this.props.match.params.id}`);
-      this.setState({ dataMovieDetails: data });
+      this.setState({ dataMovie: data });
     } catch (error) {
       console.log(error);
     }
@@ -32,8 +33,34 @@ class MovieDetails extends Component {
       .join(" ");
   };
 
+  modalTrailer = () => {
+    return (
+      <Modal
+        centered
+        contentClassName="modal-trailer"
+        size="lg"
+        isOpen={this.state.isTrailerOpen}
+        toggle={() => this.setState({ isTrailerOpen: false })}>
+        <ModalBody centered className="p-0 bg-transparent">
+          <div>
+            <iframe
+              title={`trailer-${this.state.dataMovie.title}`}
+              width="700"
+              height="393.75"
+              src={this.state.dataMovie.trailer}
+              alt="trailer not available"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+        </ModalBody>
+      </Modal>
+    );
+  };
+
   renderContent = () => {
-    Object.keys(this.state.dataMovieDetails).map((key, value) => {
+    Object.keys(this.state.dataMovie).map((key, value) => {
       return (
         <div className="mt-1 d-flex">
           <div className="col-md-3 d-flex">
@@ -44,55 +71,22 @@ class MovieDetails extends Component {
         </div>
       );
     });
-
-    // for (const [key, value] of Object.entries(this.state.dataMovieDetails)) {
-    //   return (
-    //     <div className="mt-1 d-flex">
-    //       <div className="col-md-3 d-flex">
-    //         <span className="mr-auto">{key}</span>
-    //         <span className="ml-auto">:</span>
-    //       </div>
-    //       <div className="col-md-9 mr-auto">{value}</div>
-    //     </div>
-    //   );
-    // }
   };
 
   render() {
-    const { isTrailerOpen } = this.state;
-    let data = this.state.dataMovieDetails;
-    let content = ["genre", "producer", "director", "writer", "production", "casts"];
+    const { dataMovie, content } = this.state;
+    // let content = ["genre", "producer", "director", "writer", "production", "casts"];
 
     return (
       <div>
-        <Modal
-          centered
-          contentClassName="modal-trailer"
-          size="lg"
-          isOpen={isTrailerOpen}
-          toggle={() => this.setState({ isTrailerOpen: false })}>
-          <ModalBody centered className="p-0 bg-transparent">
-            <div>
-              <iframe
-                title={`trailer-${data.title}`}
-                width="700"
-                height="393.75"
-                src={data.trailer}
-                alt="trailer not available"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              />
-            </div>
-          </ModalBody>
-        </Modal>
-
+        {this.modalTrailer()}
         <div className="row d-flex mx-2">
           {/* SIDE POSTER */}
           <div className="col-md-3">
             <div className="d-flex flex-column">
-              <div className="mx-auto d-block">
-                <img src={data.image} className="img-fluid img-thumbnail " alt="_poster" />
+              <div className="mx-auto d-block movielist">
+                <div className="details-duration">{dataMovie.duration}</div>
+                <img src={dataMovie.image} className="img-fluid img-thumbnail " alt="_poster" />
               </div>
               <button className="btn btn-warning w-50 mx-auto my-2">BUY TICKET</button>
               {/* <button className="btn btn-warning w-50 mx-auto my-2">TRAILER</button> */}
@@ -101,15 +95,15 @@ class MovieDetails extends Component {
 
           {/* KEY OBJECT */}
           <div className="col-md-5">
-            <div style={{ fontSize: "30px" }}>{data.title}</div>
+            <div style={{ fontSize: "30px" }}>{dataMovie.title}</div>
             <table className="table table-borderless table-sm">
               <tbody>
-                {content.map((val, id) => {
+                {content.map((key, id) => {
                   return (
                     <tr key={id} style={{}}>
-                      <td>{this.toTitleCase(val)}</td>
+                      <td>{this.toTitleCase(key)}</td>
                       <td>:</td>
-                      <td>{data[`${val}`]}</td>
+                      <td>{dataMovie[`${key}`]}</td>
                     </tr>
                   );
                 })}
@@ -123,7 +117,7 @@ class MovieDetails extends Component {
             </div>
 
             <h5>SYNOPSIS</h5>
-            <p>{data.synopsis}</p>
+            <p>{dataMovie.synopsis}</p>
           </div>
         </div>
       </div>

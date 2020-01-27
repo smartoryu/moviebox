@@ -13,8 +13,9 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ChangePass from "./pages/ChangePass";
-import MovieDetails from "./pages/MovieDetails";
 import ManageUsers from "./pages/ManageUsers";
+import ManageMovies from "./pages/ManageMovies";
+import MovieDetails from "./pages/MovieDetails";
 import ManageStudios from "./pages/ManageStudios";
 import NotFound from "./pages/NotFound";
 
@@ -49,6 +50,7 @@ class App extends Component {
           <Route path={"/change_password"} component={ChangePass} />
           <Route path={"/movie_details/:id"} component={MovieDetails} />
           <Route path={"/manage_users"} component={ManageUsers} />
+          <Route path={"/manage_movies"} component={ManageMovies} />
           <Route path={"/manage_studios"} component={ManageStudios} />
           <Route path={"/404"} component={NotFound} />
         </Switch>

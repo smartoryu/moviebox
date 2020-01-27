@@ -28,6 +28,13 @@ button.action {
   font-weight: 450 !important;
 }
 
+.details-duration {
+  position: absolute;
+  float: left;
+  /* top: 0; */
+  /* right: 0; */
+}
+
 .details-link {
   text-align: center;
   display: inline-block;
@@ -66,6 +73,12 @@ img.card-img-top:hover {
   width: 700;
   padding: 0;
   border: hidden;
+}
+
+.movielist {
+  float: left;
+  overflow: hidden;
+  position: relative;
 }
 
 #notfound {

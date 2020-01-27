@@ -1,9 +1,28 @@
+// const INITIAL_STATE = {
+//   id: 0,
+//   username: "",
+//   password: "",
+//   dummy: "",
+//   role: "",
+//   login: false,
+//   error: false,
+//   wrongUser: false,
+//   wrongPass: false,
+//   errorUser: "",
+//   errorPass: "",
+//   errorText: ""
+// };
+
 const INITIAL_STATE = {
   id: 0,
+  name: "",
   username: "",
   password: "",
+  email: "",
+  roleid: "",
   dummy: "",
-  role: "",
+  suspend: "",
+  verified: "",
   login: false,
   error: false,
   wrongUser: false,

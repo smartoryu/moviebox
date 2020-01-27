@@ -1,7 +1,6 @@
 {
   "users": [
     {
-      "userId": 1,
       "name": "Kenang",
       "username": "admin",
       "password": "d033e22ae348aeb5660fc2140aec35850c4da997",
@@ -13,14 +12,16 @@
       "name": "Prasty",
       "username": "prasty",
       "password": "333ebb676df99521f2e14aa89bffe68e40691cc7",
-      "role": "user"
+      "role": "user",
+      "suspend": false
     },
     {
       "id": 3,
       "name": "Yudi",
       "username": "yudi",
       "password": "4a33aa96f303c8690d291da017790ea573086954",
-      "role": "user"
+      "role": "user",
+      "suspend": false
     },
     {
       "name": "Agus",
@@ -67,11 +68,7 @@
       "wideImage": "http://movieden.net/wp-content/uploads/2019/11/jumanji-thenextlevel.jpeg",
       "title": "Jumanji: The Next Level",
       "duration": 121,
-      "schedule": [
-        12,
-        14,
-        16
-      ],
+      "schedule": [12, 14, 16],
       "studioId": 2,
       "trailer": "",
       "genre": "Action | Adventure | Comedy",
@@ -88,11 +85,7 @@
       "wideImage": "https://www.dailysia.com/wp-content/uploads/2019/12/film-eggnoid-1280x720.jpg",
       "title": "Eggnoid",
       "duration": 121,
-      "schedule": [
-        12,
-        14,
-        16
-      ],
+      "schedule": [12, 14, 16],
       "studioId": "2",
       "trailer": "",
       "genre": "Drama | Sci-Fi",
@@ -109,11 +102,7 @@
       "wideImage": "http://movieden.net/wp-content/uploads/2019/08/disney-frozen-2.jpeg",
       "title": "Frozen II",
       "duration": 121,
-      "schedule": [
-        12,
-        14,
-        20
-      ],
+      "schedule": [12, 14, 20],
       "studioId": "1",
       "trailer": "",
       "genre": "Animation | Adventure | Comedy",
@@ -130,11 +119,7 @@
       "wideImage": "https://screenhubweb.files.wordpress.com/2019/11/ford-v-ferrari-screenhub-entertainment.jpg",
       "title": "Ford v Ferrari",
       "duration": 121,
-      "schedule": [
-        12,
-        14,
-        16
-      ],
+      "schedule": [12, 14, 16],
       "studioId": "1",
       "trailer": "",
       "genre": "Action | Biography | Drama",
@@ -154,11 +139,7 @@
       "studioId": "1",
       "trailer": "",
       "edit_schedule": [],
-      "schedule": [
-        12,
-        14,
-        16
-      ],
+      "schedule": [12, 14, 16],
       "genre": "Comedy | Crime | Drama",
       "producer": "",
       "director": "",

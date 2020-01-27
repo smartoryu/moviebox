@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import CryptoJS from "crypto-js";
 import { LoginThunkAction } from "../redux/action";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +19,7 @@ import Container from "@material-ui/core/Container";
 class Login extends Component {
   handleLogin = () => {
     var username = this.username.value;
-    var password = CryptoJS.SHA1(this.password.value).toString(CryptoJS.enc.Hex);
+    var password = this.password.value;
     this.props.LoginThunkAction(username, password);
   };
 
@@ -36,7 +39,7 @@ class Login extends Component {
   render() {
     const { AuthLogin, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
 
-    // console.log("login page", AuthLogin);
+    console.log("login page", AuthLogin);
     if (AuthLogin) {
       return <Redirect to={"/"} />;
     }
@@ -116,10 +119,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  LoginThunkAction
-  // LoginSuccessAction,
-  // WrongPassAction,
-  // WrongUserAction,
-  // LoginErrorAction
-})(Login);
+export default connect(mapStateToProps, { LoginThunkAction })(Login);
