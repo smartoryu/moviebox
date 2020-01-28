@@ -25,9 +25,10 @@ export const LogoutSuccessAction = () => {
 export const LoginThunkAction = (username, password) => {
   return async dispatch => {
     try {
-      var user = await Axios.get(`${API_URL}/auth/login?username=${username}&password=${password}&dummy=${password}`);
-      console.log("user", user.data[0]);
-      if (user.data.status === "error") dispatch({ type: "WRONG_USER", payload: user.data.message });
+      // var user = await Axios.get(`${API_URL}/auth/login?username=${username}&password=${password}&dummy=${password}`);
+      var user = await Axios.get(`${API_URL}/auth/login`, {
+        params: { username, password }
+      });
 
       switch (user.data.status) {
         case "RESET_PASS":
@@ -111,22 +112,56 @@ export const UnsuspendThunkAction = dataUser => {
   };
 };
 
-export const WrongUserAction = () => {
-  return {
-    type: "WRONG_USER",
-    payload: "Username not registered!"
-  };
-};
-export const WrongPassAction = () => {
-  return {
-    type: "WRONG_PASS",
-    payload: "Username/Password doesn't match!"
-  };
-};
-export const LoginErrorAction = () => {
-  return {
-    type: "LOGIN_ERROR",
-    payload: "Server error!"
+export const RegisterThunkAction = (name, username, email, password1, password2) => {
+  return async dispatch => {
+    // var newUser = { name, username, email, password1, password2 };
+    try {
+      const newUser = await Axios.post(`${API_URL}/auth/register`, {
+        name,
+        username,
+        email,
+        password1,
+        password2
+      });
+      console.log(newUser.data);
+
+      switch (newUser.data.status) {
+        case "WRONG_FORM":
+          return dispatch({ type: "WRONG_FORM", payload: newUser.data.message });
+        case "WRONG_USER":
+          return dispatch({ type: "WRONG_USER", payload: newUser.data.message });
+        case "WRONG_PASS":
+          return dispatch({ type: "WRONG_PASS", payload: newUser.data.message });
+        case "REG_SUCCESS":
+          return dispatch({ type: "REG_SUCCESS" });
+        default:
+          break;
+      }
+
+      // var user = await Axios.get(`${API_URL}/users?username=${username}`);
+      // await dispatch({ type: "REG_RESET" });
+      // ///// cek apakah username sudah terdaftar
+      // if (user.data.length) {
+      //   dispatch({ type: "WRONG_USER", payload: "Username already registered!" });
+      // } else {
+      //   ///// cek apakah kedua password cocok
+      //   if (password1 !== password2) {
+      //     dispatch({ type: "WRONG_PASS", payload: "Password doesn't match!" });
+      //   } else {
+      //     ///// kalo oke semua, gas!
+      //     try {
+      //       await Axios.post(`${API_URL}/users`, newUser);
+      //       dispatch({ type: "REG_SUCCESS" });
+      //     } catch (error) {
+      //       console.log(error);
+      //       dispatch({ type: "REG_ERROR", payload: "Server error!" });
+      //     }
+      //   }
+      // }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "REG_ERROR", payload: "Server error!" });
+    }
   };
 };
 

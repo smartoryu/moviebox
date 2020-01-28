@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
-import Axios from "axios";
-import { connect } from "react-redux";
 import { LoginSuccessAction } from "./redux/action";
+// import Axios from "axios";
 
 import "./App.css";
 import { API_URL } from "./support/API_URL";
@@ -19,50 +20,42 @@ import MovieDetails from "./pages/MovieDetails";
 import ManageStudios from "./pages/ManageStudios";
 import NotFound from "./pages/NotFound";
 
-class App extends Component {
-  state = {
-    loading: true
-  };
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const Auth = useSelector(state => state.Auth);
+  const dispatch = useDispatch();
 
-  async componentDidMount() {
-    try {
-      var id = localStorage.getItem("userLogin");
-      if (id) {
-        var { data } = await Axios.get(`${API_URL}/users/${id}`);
-        this.props.LoginSuccessAction(data);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
+  // async componentDidMount() {
+  //   try {
+  //     var id = localStorage.getItem("userLogin");
+  //     if (id) {
+  //       var { data } = await Axios.get(`${API_URL}/users/${id}`);
+  //       this.props.LoginSuccessAction(data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     this.setState({ loading: false });
+  //   }
+  // }
 
-  render() {
-    return (
-      <div>
-        <CssBaseline />
-        <Header />
-        <Switch>
-          <Route exact path={"/"} component={Homepage} />
-          <Route path={"/login"} component={Login} />
-          <Route path={"/register"} component={Register} />
-          <Route path={"/change_password"} component={ChangePass} />
-          <Route path={"/movie_details/:id"} component={MovieDetails} />
-          <Route path={"/manage_users"} component={ManageUsers} />
-          <Route path={"/manage_movies"} component={ManageMovies} />
-          <Route path={"/manage_studios"} component={ManageStudios} />
-          <Route path={"/404"} component={NotFound} />
-        </Switch>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    Auth: state.Auth
-  };
+  return (
+    <div>
+      <CssBaseline />
+      <Header />
+      <Switch>
+        <Route exact path={"/"} component={Homepage} />
+        <Route exact path={"/login"} component={Login} />
+        <Route exact path={"/register"} component={Register} />
+        <Route exact path={"/change_password"} component={ChangePass} />
+        <Route exact path={"/movie_details/:id"} component={MovieDetails} />
+        <Route exact path={"/manage_users"} component={ManageUsers} />
+        <Route exact path={"/manage_movies"} component={ManageMovies} />
+        <Route exact path={"/manage_studios"} component={ManageStudios} />
+        <Route exact path={"/404"} component={NotFound} />
+      </Switch>
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, { LoginSuccessAction })(App);
+export default App;

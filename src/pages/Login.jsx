@@ -1,11 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { LoginThunkAction } from "../redux/action";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,34 +13,39 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
-class Login extends Component {
-  handleLogin = () => {
-    var username = this.username.value;
-    var password = this.password.value;
-    this.props.LoginThunkAction(username, password);
+const Login = () => {
+  const AuthLogin = useSelector(state => state.Auth.login);
+  const WrongUser = useSelector(state => state.Auth.wrongUser);
+  const WrongPass = useSelector(state => state.Auth.wrongPass);
+  const ErrorUser = useSelector(state => state.Auth.errorUser);
+  const ErrorPass = useSelector(state => state.Auth.errorPass);
+  const dispatch = useDispatch();
+
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+    showPassword: false
+  });
+
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value });
   };
 
-  renderCopyright = () => {
+  const renderCopyright = () => {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
         <Link color="inherit" href="/">
-          moviebox
-        </Link>{" "}
+          moviebox{" "}
+        </Link>
         {new Date().getFullYear()}
-        {"."}
       </Typography>
     );
   };
 
-  render() {
-    const { AuthLogin, WrongPass, WrongUser, ErrorUser, ErrorPass } = this.props;
-
-    console.log("login page", AuthLogin);
-    if (AuthLogin) {
-      return <Redirect to={"/"} />;
-    }
-
+  if (AuthLogin) {
+    return <Redirect to={"/"} />;
+  } else {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -58,7 +60,7 @@ class Login extends Component {
               margin="normal"
               required
               fullWidth
-              inputRef={el => (this.username = el)}
+              onChange={handleChange("username")}
               error={WrongUser}
               helperText={ErrorUser}
               label="Username"
@@ -66,13 +68,14 @@ class Login extends Component {
               autoComplete="username"
               autoFocus
             />
+
             <TextField // PASSWORD FIELD
               id="login-password"
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              inputRef={el => (this.password = el)}
+              onChange={handleChange("password")}
               error={WrongPass}
               helperText={ErrorPass}
               label="Password"
@@ -81,8 +84,8 @@ class Login extends Component {
               autoComplete="current-password"
             />
 
-            <Button // SIGN-IN BUTTON
-              onClick={this.handleLogin}
+            <Button // SIGN-IN BUTTONq
+              onClick={() => dispatch(LoginThunkAction(values.username, values.password))}
               fullWidth
               variant="contained"
               color="primary"
@@ -103,20 +106,10 @@ class Login extends Component {
             </Grid>
           </form>
         </div>
-        <Box mt={8}>{this.renderCopyright()}</Box>
+        <Box mt={8}>{renderCopyright()}</Box>
       </Container>
     );
   }
-}
-
-const mapStateToProps = state => {
-  return {
-    AuthLogin: state.Auth.login,
-    WrongUser: state.Auth.wrongUser,
-    WrongPass: state.Auth.wrongPass,
-    ErrorUser: state.Auth.errorUser,
-    ErrorPass: state.Auth.errorPass
-  };
 };
 
-export default connect(mapStateToProps, { LoginThunkAction })(Login);
+export default Login;
